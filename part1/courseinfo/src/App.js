@@ -3,62 +3,57 @@ const Header = (props) => {
     <div>
       <h1>{props.name}</h1>
     </div>
-  )
-}
+  );
+};
 
 const Content = (props) => {
+  const [first, second, third] = props.parts;
   return (
     <div>
-      <Part part={props.part1} exercise={props.exercise1} />
-      <Part part={props.part2} exercise={props.exercise2} />
-      <Part part={props.part3} exercise={props.exercise3} />
+      <Part part={first.name} exercise={first.exercises} />
+      <Part part={second.name} exercise={second.exercises} />
+      <Part part={third.name} exercise={third.exercises} />
     </div>
-  )
-}
+  );
+};
 
 const Total = (props) => {
+  const [first, second, third] = props.parts;
   return (
     <div>
-      <p>Number of exercises: {props.ex1 + props.ex2 + props.ex3}</p>
+      <p>
+        Number of exercises:{" "}
+        {first.exercises + second.exercises + third.exercises}
+      </p>
     </div>
-  )
-}
+  );
+};
 
 const Part = (props) => {
   return (
     <div>
-      <p>{props.part} {props.exercise}</p>
+      <p>
+        {props.part} {props.exercise}
+      </p>
     </div>
-  )
-}
-
-
-
+  );
+};
 
 const App = () => {
-  const course = "Half stack application development"
-  const part1 = {
-    name: "Fundamentals of React:",
-    exercises: 10
-  }
-
-  const part2 = {
-    name: "Using props to pass data:",
-    exercises: 7
-  }
-
-  const part3 = {
-    name: "State of a component",
-    exercises: 14
-  }
+  const course = "Half stack application development";
+  const parts = [
+    { name: "Fundamentals of React", exercises: 10 },
+    { name: "Using props to pass data", exercises: 7 },
+    { name: "State of a component", exercises: 14 },
+  ];
 
   return (
     <div>
       <Header name={course} />
-      <Content part1={part1.name} exercise1={part1.exercises} part2={part2.name} exercise2={part2.exercises} part3={part3.name} exercise3={part3.exercises} />
-      <Total ex1={part1.exercises} ex2={part2.exercises} ex3={part3.exercises} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
-  )
-}
+  );
+};
 
 export default App;
