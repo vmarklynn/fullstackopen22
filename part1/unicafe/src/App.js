@@ -12,15 +12,37 @@ const Button = ({ onClick, text }) => {
   return <button onClick={onClick}>{text}</button>;
 };
 
-const Statistics = ({ category, value }) => {
+const StatisticLine = ({ text, value }) => {
   return (
-    <div>
-      <p>
-        {category} {value}
-      </p>
-    </div>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
+const Statistics = (props) => {
+  const [good, neutral, bad, all, average, positive] = props.values;
+  if (good === 0 && neutral === 0 && bad === 0) {
+    return (
+      <div>
+        <p>No feedback given</p>
+      </div>
+    );
+  }
+  return (
+    <table>
+      <tbody>
+        <StatisticLine text="Good" value={good} />
+        <StatisticLine text="Neutral" value={neutral} />
+        <StatisticLine text="Bad" value={bad} />
+        <StatisticLine text="All" value={all} />
+        <StatisticLine text="Average" value={average} />
+        <StatisticLine text="Positive" value={positive + "%"} />
+      </tbody>
+    </table>
+  );
+};
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
@@ -29,7 +51,7 @@ const App = () => {
   const [average, setAverage] = useState(0);
   const [total, setTotal] = useState(0);
   const [positive, setPositive] = useState(0);
-
+  const resultArray = [good, neutral, bad, total, average, positive];
   const incrementValue = (ratingSet, ratingValue, categoryNumber) => {
     const newValue = ratingValue + 1;
     const newTotal = total + 1;
@@ -60,12 +82,7 @@ const App = () => {
       />
       <Button onClick={() => incrementValue(setBad, bad, 2)} text={"Bad"} />
       <Header text="Statistics" />
-      <Statistics category={"Good"} value={good} />
-      <Statistics category={"Neutral"} value={neutral} />
-      <Statistics category={"Bad"} value={bad} />
-      <Statistics category={"All"} value={total} />
-      <Statistics category={"Average"} value={average} />
-      <Statistics category={"Positive"} value={positive} />
+      <Statistics values={resultArray} />
     </div>
   );
 };
