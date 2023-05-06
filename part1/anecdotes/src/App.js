@@ -4,6 +4,18 @@ const Button = ({ text, onClick }) => {
   return <button onClick={onClick}>{text}</button>;
 };
 
+const Header = ({ text }) => {
+  return <h2>{text}</h2>;
+};
+
+const Anecdote = ({ anecdoteText, anecdoteVote }) => {
+  return (
+    <div>
+      <p>{anecdoteText}</p>
+      <p>Has {anecdoteVote} votes.</p>
+    </div>
+  );
+};
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often.",
@@ -33,10 +45,15 @@ const App = () => {
     setVoteArray(newVotes);
   };
 
+  const currentMaxIndex = voteArray.indexOf(Math.max(...voteArray));
+
   return (
     <div>
-      {anecdotes[selected]}
-      <p>Has {voteArray[selected]} votes</p>
+      <Header text="Anecdote of the day" />
+      <Anecdote
+        anecdoteText={anecdotes[selected]}
+        anecdoteVote={voteArray[selected]}
+      />
       <div>
         <Button text="Vote" onClick={() => addVotes(voteArray, selected)} />
         <Button
@@ -44,6 +61,11 @@ const App = () => {
           onClick={() => randomGenerator(anecdotes.length)}
         />
       </div>
+      <Header text="Anecdote with most votes" />
+      <Anecdote
+        anecdoteText={anecdotes[currentMaxIndex]}
+        anecdoteVote={voteArray[currentMaxIndex]}
+      />
     </div>
   );
 };
