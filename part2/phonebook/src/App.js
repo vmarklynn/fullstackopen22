@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 const Person = ({ person }) => {
   return (
     <p>
@@ -6,10 +7,14 @@ const Person = ({ person }) => {
     </p>
   );
 };
+
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: "Arto Hellas", phoneNum: "206-123-2234", id: 0 },
+    { name: "Arto Hellas", phoneNum: "206-123-2234", id: 1 },
+    { name: "James Bond", phoneNum: "206-123-4444", id: 2 },
+    { name: "Robbie Marklynn", phoneNum: "206-215-2465", id: 3 },
   ]);
+  const [filterName, setFilterName] = useState("");
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const addName = (event) => {
@@ -27,6 +32,7 @@ const App = () => {
     } else {
       setPersons(persons.concat(personObj));
       setNewName("");
+      setNewNumber("");
     }
   };
 
@@ -38,9 +44,24 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
+  const handleFilterInsertion = (event) => {
+    console.log(event.target.value);
+    setFilterName(event.target.value);
+  };
+
+  const filteredArray = persons.filter((person) =>
+    person.name.toLowerCase().includes(filterName.toLowerCase())
+  );
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        filter by: <input onChange={handleFilterInsertion} />
+      </div>
+
+      <h2>Add a new number</h2>
+
       <form onSubmit={addName}>
         <div>
           name: <input onChange={handleNameInsertion} />
@@ -54,7 +75,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        {persons.map((person) => (
+        {filteredArray.map((person) => (
           <Person person={person} key={person.id} />
         ))}
       </div>
