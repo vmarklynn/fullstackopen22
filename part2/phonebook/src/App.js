@@ -1,16 +1,24 @@
 import { useState } from "react";
 const Person = ({ person }) => {
-  return <p>{person.name}</p>;
+  return (
+    <p>
+      {person.name} {person.phoneNum}
+    </p>
+  );
 };
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas", id: 0 }]);
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", phoneNum: "206-123-2234", id: 0 },
+  ]);
   const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
   const addName = (event) => {
     event.preventDefault();
     console.log("Add was clicked", event.target);
 
     const personObj = {
       name: newName,
+      phoneNum: newNumber,
       id: persons.length + 1,
     };
 
@@ -26,12 +34,19 @@ const App = () => {
     setNewName(event.target.value);
   };
 
+  const handlePhoneInsertion = (event) => {
+    setNewNumber(event.target.value);
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
       <form onSubmit={addName}>
         <div>
           name: <input onChange={handleNameInsertion} />
+        </div>
+        <div>
+          number: <input onChange={handlePhoneInsertion} />
         </div>
         <div>
           <button type="submit">add</button>
