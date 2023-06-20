@@ -14,12 +14,15 @@ const App = () => {
       id: persons.length + 1,
     };
 
-    setPersons(persons.concat(personObj));
-    setNewName("");
+    if (persons.some((person) => person.name === newName)) {
+      alert(`${newName} is already added to the phonebook.`);
+    } else {
+      setPersons(persons.concat(personObj));
+      setNewName("");
+    }
   };
 
   const handleNameInsertion = (event) => {
-    console.log(event.target.value);
     setNewName(event.target.value);
   };
 
