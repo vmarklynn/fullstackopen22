@@ -51,7 +51,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter handleChange={handleFilterInsertion} />
 
-      <h2>Add a new number</h2>
+      <h3>Add a new number</h3>
       <PersonForm
         submitHandler={addName}
         nameHandler={handleNameInsertion}
