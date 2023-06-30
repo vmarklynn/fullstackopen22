@@ -1,9 +1,14 @@
 import Person from "./Person";
-const Persons = ({ personArray }) => {
+const Persons = ({ personArray, setPersons }) => {
   return (
     <div>
       {personArray.map((person) => (
-        <Person person={person} key={person.id} />
+        <Person
+          person={person}
+          key={person.id}
+          setPersons={setPersons}
+          personArray={personArray}
+        />
       ))}
     </div>
   );

@@ -1,29 +1,9 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "phoneNum": "206-123-2234",
-      "id": 1
-    },
-    {
-      "name": "James Bond",
-      "phoneNum": "206-123-4444",
-      "id": 2
-    },
-    {
-      "name": "Robbie Marklynn",
-      "phoneNum": "206-215-2465",
-      "id": 3
-    },
-    {
       "name": "Jacob Brown",
       "phoneNum": "123-234-1234",
       "id": 4
-    },
-    {
-      "name": "Stephen Hark",
-      "phoneNum": "1234",
-      "id": 5
     }
   ]
 }

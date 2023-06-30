@@ -1,8 +1,26 @@
-const Person = ({ person }) => {
+import personService from "../services/persons";
+
+const Person = ({ person, setPersons, personArray }) => {
   return (
-    <p>
-      {person.name} {person.phoneNum}
-    </p>
+    <div>
+      <p>
+        {person.name} {person.phoneNum}
+        <button
+          onClick={() => {
+            if (window.confirm(`Delete ${person.name}?`)) {
+              personService.removePerson(person.id);
+              setPersons(
+                personArray.filter((arrayPerson) => {
+                  return arrayPerson.id !== person.id;
+                })
+              );
+            }
+          }}
+        >
+          delete
+        </button>
+      </p>
+    </div>
   );
 };
 
