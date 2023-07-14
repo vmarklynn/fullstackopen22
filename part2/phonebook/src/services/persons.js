@@ -17,4 +17,9 @@ const removePerson = (id) => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, create, removePerson };
+const replaceNumber = (id, newObject) => {
+  const request = axios.put(baseUrl.concat(`/${id}`), newObject);
+  return request.then((response) => response.data);
+};
+
+export default { getAll, create, removePerson, replaceNumber };

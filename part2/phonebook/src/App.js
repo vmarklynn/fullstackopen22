@@ -24,17 +24,46 @@ const App = () => {
     const personObj = {
       name: newName,
       phoneNum: newNumber,
-      id: persons.length + 1,
     };
 
     if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to the phonebook.`);
+      if (newNumber) {
+        // Make HTML PUT handleFilterInsertion
+        if (
+          window.confirm(
+            `${newName} already exists in the Phonebook. Replace current entry with new number?`
+          )
+        ) {
+          //TODO: Create appropriate HTTP Put request here.
+          const personToUpdate = persons.find(
+            (person) => person.name.toLowerCase() === newName.toLowerCase()
+          );
+          personService
+            .replaceNumber(personToUpdate.id, {
+              ...personToUpdate,
+              phoneNum: newNumber,
+            })
+            .then((updatedPerson) => {
+              setPersons(
+                persons.map((person) =>
+                  person.id !== updatedPerson.id ? person : updatedPerson
+                )
+              );
+              setNewName("");
+              setNewNumber("");
+              event.target.reset();
+            });
+        }
+      } else {
+        alert(`${newName} is already added to the phonebook.`);
+      }
     } else {
       // create then render
       personService.create(personObj).then((newPerson) => {
         setPersons(persons.concat(newPerson));
         setNewName("");
         setNewNumber("");
+        event.target.reset();
       });
     }
   };
