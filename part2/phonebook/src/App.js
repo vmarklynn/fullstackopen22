@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
 import { Filter, PersonForm, Persons } from "./components/";
 import personService from "./services/persons";
+import "./index.css";
+
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null;
+  }
+
+  return <div className="notice">{message}</div>;
+};
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [filterName, setFilterName] = useState("");
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     console.log("effect");
@@ -19,8 +29,6 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault();
-    console.log("Add was clicked", event.target);
-
     const personObj = {
       name: newName,
       phoneNum: newNumber,
@@ -34,7 +42,6 @@ const App = () => {
             `${newName} already exists in the Phonebook. Replace current entry with new number?`
           )
         ) {
-          //TODO: Create appropriate HTTP Put request here.
           const personToUpdate = persons.find(
             (person) => person.name.toLowerCase() === newName.toLowerCase()
           );
@@ -52,10 +59,17 @@ const App = () => {
               setNewName("");
               setNewNumber("");
               event.target.reset();
+              setNotification(`${updatedPerson.name} has been updated`);
+              setTimeout(() => {
+                setNotification(null);
+              }, 5000);
             });
         }
       } else {
-        alert(`${newName} is already added to the phonebook.`);
+        setNotification(`${newName} is already added to the phonebook.`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
       }
     } else {
       // create then render
@@ -64,6 +78,11 @@ const App = () => {
         setNewName("");
         setNewNumber("");
         event.target.reset();
+
+        setNotification(`${newPerson.name} has been added`);
+        setTimeout(() => {
+          setNotification(null);
+        }, 5000);
       });
     }
   };
@@ -88,6 +107,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} />
       <Filter handleChange={handleFilterInsertion} />
 
       <h3>Add a new number</h3>
