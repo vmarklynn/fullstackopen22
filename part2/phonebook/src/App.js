@@ -3,12 +3,12 @@ import { Filter, PersonForm, Persons } from "./components/";
 import personService from "./services/persons";
 import "./index.css";
 
-const Notification = ({ message }) => {
+const Notification = ({ message, variant }) => {
   if (message === null) {
     return null;
   }
 
-  return <div className="notice">{message}</div>;
+  return <div className={variant}>{message}</div>;
 };
 
 const App = () => {
@@ -17,6 +17,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [notification, setNotification] = useState(null);
+  const [errorStatus, setErrorStatus] = useState(null);
 
   useEffect(() => {
     console.log("effect");
@@ -63,6 +64,18 @@ const App = () => {
               setTimeout(() => {
                 setNotification(null);
               }, 5000);
+            })
+            .catch((error) => {
+              setNotification(
+                `${newName} has already been removed from the server. `
+              );
+
+              setErrorStatus(true);
+
+              setTimeout(() => {
+                setNotification(null);
+                setErrorStatus(null);
+              }, 5000);
             });
         }
       } else {
@@ -107,7 +120,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification
+        message={notification}
+        variant={errorStatus ? "error" : "success"}
+      />
       <Filter handleChange={handleFilterInsertion} />
 
       <h3>Add a new number</h3>
