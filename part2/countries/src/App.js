@@ -9,8 +9,20 @@ const SearchBar = ({ handleChange }) => {
   );
 };
 
+const SearchResult = ({ listArray }) => {
+  if (listArray.length > 10) {
+    return <div>Too many matches, specify another filter.</div>;
+  } else if (listArray.length <= 10 && listArray.length > 1) {
+    return (
+      <div>
+        {listArray.map((country) => (
+          <p>{country.name.common}</p>
+        ))}
+      </div>
+    );
+  }
+};
 const App = () => {
-  const [countryName, setCountryName] = useState("");
   const [countryList, setCountryList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
 
@@ -22,15 +34,13 @@ const App = () => {
   }, []);
 
   const handleInputChange = (event) => {
-    setCountryName(event.target.value);
     setFilteredList(
       countryList.filter((countries) =>
-        countries["name"]["common"]
+        countries.name.common
           .toLowerCase()
-          .includes(countryName.toLowerCase())
+          .includes(event.target.value.toLowerCase())
       )
     );
-    console.log(countryName);
   };
 
   console.log(filteredList);
@@ -38,6 +48,7 @@ const App = () => {
   return (
     <div className="App">
       <SearchBar handleChange={handleInputChange} />
+      <SearchResult listArray={filteredList} />
     </div>
   );
 };
