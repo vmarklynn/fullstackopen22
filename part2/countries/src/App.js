@@ -26,38 +26,32 @@ const CountryInfo = ({ name, capital, area, languageList, flagUrl }) => {
   );
 };
 
-const SearchResult = ({ listArray }) => {
+const SearchResult = ({ listArray, setDisplay }) => {
   if (listArray.length > 10) {
     return <div>Too many matches, specify another filter.</div>;
   } else if (listArray.length <= 10 && listArray.length > 1) {
     return (
       <div>
         {listArray.map((country) => (
-          <p>{country.name.common}</p>
+          <p>
+            {country.name.common}{" "}
+            <button onClick={() => setDisplay(country)}>Show</button>
+          </p>
         ))}
       </div>
     );
   } else if (listArray.length == 1) {
     const country = listArray[0];
-    const languages = country.languages;
-    return (
-      <CountryInfo
-        name={country.name.common}
-        capital={country.capital}
-        area={country.area}
-        languageList={Object.values(languages)}
-        flagUrl={country.flags.png}
-      />
-    );
+    setDisplay(country);
   }
 };
 const App = () => {
   const [countryList, setCountryList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
+  const [displayCountry, setDisplayCountry] = useState(null);
 
   useEffect(() => {
     countriesService.getAll().then((initialCountries) => {
-      console.log("promise fulfilled");
       setCountryList(initialCountries);
     });
   }, []);
@@ -67,17 +61,22 @@ const App = () => {
       countryList.filter((countries) =>
         countries.name.common
           .toLowerCase()
-          .includes(event.target.value.toLowerCase())
-      )
+          .includes(event.target.value.toLowerCase()),
+      ),
     );
   };
-
-  console.log(filteredList);
 
   return (
     <div className="App">
       <SearchBar handleChange={handleInputChange} />
-      <SearchResult listArray={filteredList} />
+      <SearchResult listArray={filteredList} setDisplay={setDisplayCountry} />
+      <CountryInfo
+        name={displayCountry.name.common}
+        capital={displayCountry.capital}
+        area={displayCountry.area}
+        languageList={Object.values(displayCountry.languages)}
+        flagUrl={displayCountry.flags.png}
+      />
     </div>
   );
 };
