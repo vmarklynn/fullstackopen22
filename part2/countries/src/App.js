@@ -9,19 +9,23 @@ const SearchBar = ({ handleChange }) => {
   );
 };
 
-const CountryInfo = ({ name, capital, area, languageList, flagUrl }) => {
+const CountryInfo = ({ country }) => {
+  if (country === null) {
+    return null;
+  }
+  const languages = Object.values(country.languages);
   return (
     <div>
-      <h2>{name}</h2>
-      <p>Capital: {capital}</p>
-      <p>Area: {area} km sq. </p>
+      <h2>{country.name.common}</h2>
+      <p>Capital: {country.capital}</p>
+      <p>Area: {country.area} km sq. </p>
       <h3>Languages</h3>
       <ul>
-        {languageList.map((language) => (
+        {languages.map((language) => (
           <li>{language}</li>
         ))}
       </ul>
-      <img src={flagUrl} />
+      <img src={country.flags.png} />
     </div>
   );
 };
@@ -70,13 +74,7 @@ const App = () => {
     <div className="App">
       <SearchBar handleChange={handleInputChange} />
       <SearchResult listArray={filteredList} setDisplay={setDisplayCountry} />
-      <CountryInfo
-        name={displayCountry.name.common}
-        capital={displayCountry.capital}
-        area={displayCountry.area}
-        languageList={Object.values(displayCountry.languages)}
-        flagUrl={displayCountry.flags.png}
-      />
+      <CountryInfo country={displayCountry} />
     </div>
   );
 };
