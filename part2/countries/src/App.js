@@ -44,7 +44,7 @@ const SearchResult = ({ listArray, setDisplay }) => {
         ))}
       </div>
     );
-  } else if (listArray.length == 1) {
+  } else if (listArray.length === 1) {
     const country = listArray[0];
     setDisplay(country);
   }
@@ -53,6 +53,8 @@ const App = () => {
   const [countryList, setCountryList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [displayCountry, setDisplayCountry] = useState(null);
+
+  const api_key = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     countriesService.getAll().then((initialCountries) => {
@@ -65,10 +67,18 @@ const App = () => {
       countryList.filter((countries) =>
         countries.name.common
           .toLowerCase()
-          .includes(event.target.value.toLowerCase()),
-      ),
+          .includes(event.target.value.toLowerCase())
+      )
     );
   };
+
+  if (displayCountry) {
+    countriesService
+      .getWeather(api_key, displayCountry.capital, displayCountry.cc2)
+      .then((weatherData) => {
+        console.log(weatherData);
+      });
+  }
 
   return (
     <div className="App">

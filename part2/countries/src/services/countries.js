@@ -7,4 +7,11 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
-export default { getAll };
+const getWeather = (apiKey, city, cc2) => {
+  const request = axios.get(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city},${cc2}&APPID=${apiKey}`
+  );
+  return request.then((response) => response.data);
+};
+
+export default { getAll, getWeather };
