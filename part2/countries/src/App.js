@@ -49,10 +49,28 @@ const SearchResult = ({ listArray, setDisplay }) => {
     setDisplay(country);
   }
 };
+
+const WeatherDisplay = ({ country, weather }) => {
+  if (country === null || weather === null) {
+    return null;
+  }
+  return (
+    <div>
+      <h2>Weather in {country.capital}</h2>
+      <p>Temperature {weather.main.temp} C</p>
+      <img
+        src={`https://openweathermap.org/img/wn/${weather.weather["0"].icon}@2x.png`}
+      />
+      <p>Wind {weather.wind.speed} m/s</p>
+    </div>
+  );
+};
+
 const App = () => {
   const [countryList, setCountryList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [displayCountry, setDisplayCountry] = useState(null);
+  const [displayWeather, setDisplayWeather] = useState(null);
 
   const api_key = process.env.REACT_APP_API_KEY;
 
@@ -72,19 +90,22 @@ const App = () => {
     );
   };
 
-  if (displayCountry) {
-    countriesService
-      .getWeather(api_key, displayCountry.capital, displayCountry.cc2)
-      .then((weatherData) => {
-        console.log(weatherData);
-      });
-  }
+  useEffect(() => {
+    if (displayCountry) {
+      countriesService
+        .getWeather(api_key, displayCountry.capital, displayCountry.cc2)
+        .then((weatherData) => {
+          setDisplayWeather(weatherData);
+        });
+    }
+  }, [displayCountry]);
 
   return (
     <div className="App">
       <SearchBar handleChange={handleInputChange} />
       <SearchResult listArray={filteredList} setDisplay={setDisplayCountry} />
       <CountryInfo country={displayCountry} />
+      <WeatherDisplay country={displayCountry} weather={displayWeather} />
     </div>
   );
 };

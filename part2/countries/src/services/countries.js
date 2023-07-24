@@ -9,7 +9,7 @@ const getAll = () => {
 
 const getWeather = (apiKey, city, cc2) => {
   const request = axios.get(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city},${cc2}&APPID=${apiKey}`
+    `https://api.openweathermap.org/data/2.5/weather?q=${city},${cc2}&units=metric&APPID=${apiKey}`
   );
   return request.then((response) => response.data);
 };
