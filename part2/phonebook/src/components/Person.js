@@ -4,7 +4,7 @@ const Person = ({ person, setPersons, personArray }) => {
   return (
     <div>
       <p>
-        {person.name} {person.phoneNum}
+        {person.name} {person.number}
         <button
           onClick={() => {
             if (window.confirm(`Delete ${person.name}?`)) {

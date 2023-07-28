@@ -23,7 +23,7 @@ const App = () => {
     console.log("effect");
 
     personService.getAll().then((initialPersons) => {
-      console.log("promise fulfilled");
+      console.log(initialPersons);
       setPersons(initialPersons);
     });
   }, []);
@@ -32,7 +32,7 @@ const App = () => {
     event.preventDefault();
     const personObj = {
       name: newName,
-      phoneNum: newNumber,
+      number: newNumber,
     };
 
     if (persons.some((person) => person.name === newName)) {
@@ -49,7 +49,7 @@ const App = () => {
           personService
             .replaceNumber(personToUpdate.id, {
               ...personToUpdate,
-              phoneNum: newNumber,
+              number: newNumber,
             })
             .then((updatedPerson) => {
               setPersons(
