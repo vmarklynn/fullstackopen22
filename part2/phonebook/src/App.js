@@ -44,7 +44,7 @@ const App = () => {
           )
         ) {
           const personToUpdate = persons.find(
-            (person) => person.name.toLowerCase() === newName.toLowerCase()
+            (person) => person.name === newName
           );
           personService
             .replaceNumber(personToUpdate.id, {
