@@ -86,17 +86,27 @@ const App = () => {
       }
     } else {
       // create then render
-      personService.create(personObj).then((newPerson) => {
-        setPersons(persons.concat(newPerson));
-        setNewName("");
-        setNewNumber("");
-        event.target.reset();
+      personService
+        .create(personObj)
+        .then((newPerson) => {
+          setPersons(persons.concat(newPerson));
+          setNewName("");
+          setNewNumber("");
+          event.target.reset();
 
-        setNotification(`${newPerson.name} has been added`);
-        setTimeout(() => {
-          setNotification(null);
-        }, 5000);
-      });
+          setNotification(`${newPerson.name} has been added`);
+          setTimeout(() => {
+            setNotification(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          setNotification(error.response.data.error);
+          setErrorStatus(true);
+          setTimeout(() => {
+            setNotification(null);
+            setErrorStatus(null);
+          }, 5000);
+        });
     }
   };
 
