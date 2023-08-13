@@ -35,7 +35,11 @@ const App = () => {
       number: newNumber,
     };
 
-    if (persons.some((person) => person.name === newName)) {
+    if (
+      persons.some(
+        (person) => person.name.toLowerCase() === newName.toLowerCase()
+      )
+    ) {
       if (newNumber) {
         // Make HTML PUT handleFilterInsertion
         if (
@@ -44,7 +48,7 @@ const App = () => {
           )
         ) {
           const personToUpdate = persons.find(
-            (person) => person.name === newName
+            (person) => person.name.toLowerCase() === newName.toLowerCase()
           );
           personService
             .replaceNumber(personToUpdate.id, {
