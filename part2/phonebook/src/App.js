@@ -66,10 +66,7 @@ const App = () => {
               }, 5000);
             })
             .catch((error) => {
-              setNotification(
-                `${newName} has already been removed from the server. `
-              );
-
+              setNotification(error.response.data.error);
               setErrorStatus(true);
 
               setTimeout(() => {
